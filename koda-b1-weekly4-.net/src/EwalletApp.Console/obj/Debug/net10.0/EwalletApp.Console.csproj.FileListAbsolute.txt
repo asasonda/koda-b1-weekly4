@@ -1,0 +1,14 @@
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\bin\Debug\net10.0\EwalletApp.Console.exe
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\bin\Debug\net10.0\EwalletApp.Console.deps.json
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\bin\Debug\net10.0\EwalletApp.Console.runtimeconfig.json
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\bin\Debug\net10.0\EwalletApp.Console.dll
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\bin\Debug\net10.0\EwalletApp.Console.pdb
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\EwalletApp.Console.GeneratedMSBuildEditorConfig.editorconfig
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\EwalletApp.Console.AssemblyInfoInputs.cache
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\EwalletApp.Console.AssemblyInfo.cs
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\EwalletApp.Console.csproj.CoreCompileInputs.cache
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\EwalletApp.Console.dll
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\refint\EwalletApp.Console.dll
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\EwalletApp.Console.pdb
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\EwalletApp.Console.genruntimeconfig.cache
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\ref\EwalletApp.Console.dll
