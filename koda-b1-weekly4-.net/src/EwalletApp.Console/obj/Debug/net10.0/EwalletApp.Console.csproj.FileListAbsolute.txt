@@ -12,3 +12,4 @@ D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug
 D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\EwalletApp.Console.pdb
 D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\EwalletApp.Console.genruntimeconfig.cache
 D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\ref\EwalletApp.Console.dll
+D:\koda\C#\koda-b1-weekly4\koda-b1-weekly4-.net\src\EwalletApp.Console\obj\Debug\net10.0\EwalletApp.Console.sourcelink.json

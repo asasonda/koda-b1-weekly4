@@ -18,6 +18,38 @@ public class Wallet(
         return Balance;
     }
 
+    public void TopUp(decimal nominal)
+    {
+        if (nominal <= 0)
+        {
+            throw new ArgumentException("Nominal Top Up harus lebih dari 0.");
+        }
+        Balance += nominal;
+    }
+
+    public void TransferOut(decimal nominal)
+    {
+        if (nominal <= 0)
+        {
+            throw new ArgumentException("Nominal transfer harus lebih dari 0.");
+        }
+
+        if (Balance < nominal)
+        {
+            throw new InvalidOperationException("Saldo tidak mencukupi.");
+        }
+        Balance -= nominal;
+    }
+
+    public void TransferIn(decimal nominal)
+    {
+        if (nominal <= 0)
+        {
+            throw new ArgumentException("Nominal transfer harus lebih dari 0.");
+        }
+        Balance += nominal;
+    }
+
     public override void ShowAccount()
     {
         System.Console.WriteLine($"Nomor Wallet: {UserId}");

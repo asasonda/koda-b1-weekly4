@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Security.Cryptography;
 using EwalletApp.Console.Models;
 
 namespace EwalletApp.Console.Services;
@@ -16,67 +14,111 @@ public class TransferServices : Transaction
     {
         System.Console.WriteLine("============= TRANSFER ==============");
         System.Console.WriteLine();
+
+        var pengirim = walletUsers.OfType<Wallet>().FirstOrDefault(p => p.UserId.Equals(find, StringComparison.OrdinalIgnoreCase));
         
+        if(pengirim is null)
+        {
+            System.Console.WriteLine("Sender Not Valid");
+            return false;
+        }
+
         System.Console.Write("Masukan penerima: ");
-        string? penerima = System.Console.ReadLine();
+        string? tujuan = System.Console.ReadLine();
 
-        var cek = walletUsers.FirstOrDefault(cari => cari.UserId.Equals(find, StringComparison.OrdinalIgnoreCase));
-
-        if(penerima?.ToLower() == cek?.Name.ToLower())
+        if (string.IsNullOrWhiteSpace(tujuan))
         {
-            System.Console.WriteLine("Tidak dapat lakukan transfer ke diri sendiri");
+            System.Console.WriteLine("Nomor wallet tidak boleh kosong.");
             return false;
         }
 
-        System.Console.Write("Masukan nominal: ");
-        NominalTransactions = Convert.ToDecimal(System.Console.ReadLine());
-        System.Console.WriteLine();
+        var penerima = walletUsers.OfType<Wallet>().FirstOrDefault(p => p.UserId.Equals(tujuan.Trim(),StringComparison.OrdinalIgnoreCase));
 
-        if(NominalTransactions <= 0)
+        if(penerima is null)
         {
-            System.Console.WriteLine("Nominal not valid");
+            System.Console.WriteLine("Penerima tidak ditemukan");
             return false;
         }
-        
-        var objekPenerima = walletUsers.Where(ambil => ambil.Name.ToLower() == penerima?.ToLower()).Select(ambil => new{
-            Id = ambil.UserId,
-            Nama = ambil.Name
-        }).ToList();
-        
-        System.Console.WriteLine();
-        foreach (var penerimaTf in objekPenerima)
+
+        if(pengirim.UserId.Equals(penerima.UserId, StringComparison.OrdinalIgnoreCase))
         {
-            System.Console.WriteLine($"Nomor Wallet Tujuan: {penerimaTf.Id}");
-            System.Console.WriteLine($"Penerima: {penerimaTf.Nama}");
+            System.Console.WriteLine("Tidak dapat transfer ke diri sendiri");
+            return false;
         }
-        System.Console.WriteLine($"Nominal Transfer: {NominalTransactions:N0}");
+
+        while (true)
+        {
+            System.Console.Write("Masukan nominal: ");
+            NominalTransactions = Convert.ToDecimal(System.Console.ReadLine());
+            System.Console.WriteLine();
+
+            if(NominalTransactions <= 0)
+            {
+                System.Console.WriteLine("Nominal not valid");
+                continue;
+            }
+            break;
+        }
+
+
+        if (pengirim.GetBalance() < NominalTransactions)
+        {
+            System.Console.WriteLine("Saldo tidak mencukupi.");
+            return false;
+        }
+
+        System.Console.WriteLine();
+        System.Console.WriteLine($"Nomor Wallet Tujuan: {penerima.UserId}");
+        System.Console.WriteLine($"Penerima: {penerima.Name}");
+        System.Console.WriteLine($"Nominal Transfer: Rp{NominalTransactions:N0}");
+        System.Console.WriteLine();
 
         System.Console.Write("Konfirmasi Transfer (Y/n): ");
         string? confirm = System.Console.ReadLine();
-
-        var saldo = cek?.GetBalance();
-        var prosesTf = saldo - NominalTransactions;
-
-        if(prosesTf < 0)
+        if (!string.Equals(confirm,"Y",StringComparison.OrdinalIgnoreCase))
         {
-            System.Console.WriteLine("Saldo tidak mencukupi");
+            System.Console.WriteLine("Transfer dibatalkan.");
             return false;
         }
 
-        System.Console.WriteLine();
-        System.Console.WriteLine($"Pengirim: {cek?.Name}");
-        foreach (var item in objekPenerima)
+        try
         {
-            System.Console.WriteLine($"Penerima: {item.Nama}");
+            pengirim.TransferOut(NominalTransactions);
+            penerima.TransferIn(NominalTransactions);
+
+            riwayats.Add(new Riwayat(
+                pengirim.UserId,
+                "Transfer Keluar",
+                NominalTransactions,
+                $"Transfer ke {penerima.Name}"
+            ));
+
+            riwayats.Add(new Riwayat(
+                penerima.UserId,
+                "Transfer Masuk",
+                NominalTransactions,
+                $"Transfer dari {pengirim.Name}"
+            ));
+
+            System.Console.WriteLine();
+            System.Console.WriteLine("Transfer berhasil!");
+
+            System.Console.WriteLine($"Pengirim: {pengirim.Name}");
+            System.Console.WriteLine($"Penerima: {penerima.Name}");
+            System.Console.WriteLine($"Nominal: Rp{NominalTransactions:N0}");
+            System.Console.WriteLine($"Sisa Saldo    : Rp{pengirim.GetBalance():N0}");
+            return true;
         }
-        System.Console.WriteLine($"Nominal: {NominalTransactions:N0}");
-        System.Console.WriteLine($"Sisa Saldo: {prosesTf:N0}");
-        System.Console.WriteLine();
-
-        var ambilNamaReceiverSaja = walletUsers.Where(p => p.Name.ToLower() == penerima?.ToLower()).Select(p => p.Name).FirstOrDefault();
-        riwayats.Add(new Riwayat(cek?.Name, ambilNamaReceiverSaja, NominalTransactions));
-
-        return confirm?.ToLower() == "y";
+        catch (ArgumentException e)
+        {
+            System.Console.WriteLine($"Transfer gagal: {e.Message}");
+            return false;
+        }
+        catch (InvalidOperationException ex)
+        {
+            System.Console.WriteLine($"Transfer gagal: {ex.Message}");
+            return false;
+        }
     }
 
     public override string TypeTransactionName()

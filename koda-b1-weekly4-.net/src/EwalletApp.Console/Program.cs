@@ -15,24 +15,31 @@ while (true)
     Console.WriteLine("Pilih Pengguna:");
     
     UserServices.ShowUser(walletsUsers);
-    System.Console.Write("Pilihan: ");
-    int account = Convert.ToInt32(Console.ReadLine());
-    switch (account)
+    try
     {
-        case 1:
-            MenuServices.GetUser(walletsUsers,account,riwayats);
-            break;
-        case 2:
-            MenuServices.GetUser(walletsUsers,account, riwayats);
-            break;
-        case 3:
-            MenuServices.GetUser(walletsUsers,account, riwayats);
-            break;
-        case 4:
-            System.Console.WriteLine("Exit");
-            return;
-        default:
-        System.Console.WriteLine("Menu tidak tersedia");
-            break;
+        System.Console.Write("Pilihan: ");
+        int account = Convert.ToInt32(Console.ReadLine());
+        switch (account)
+        {
+            case 1:
+                MenuServices.GetUser(walletsUsers,account,riwayats);
+                break;
+            case 2:
+                MenuServices.GetUser(walletsUsers,account, riwayats);
+                break;
+            case 3:
+                MenuServices.GetUser(walletsUsers,account, riwayats);
+                break;
+            case 4:
+                System.Console.WriteLine("Exit");
+                return;
+            default:
+            System.Console.WriteLine("Menu tidak tersedia");
+                break;
+        }
+    }
+    catch(Exception)
+    {
+        System.Console.WriteLine($"Error: Account tidak tersedia");
     }
 }

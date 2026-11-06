@@ -15,24 +15,51 @@ public class TopUpServices : Transaction
         System.Console.WriteLine("========== TOPUP ==========");
         System.Console.WriteLine();
 
-        System.Console.Write("Masukan nominal: ");
-        NominalTransactions = Convert.ToDecimal(System.Console.ReadLine());
+        var cek = walletUsers.OfType<Wallet>().FirstOrDefault(p => p.UserId.Equals(find, StringComparison.OrdinalIgnoreCase));
 
-        if(NominalTransactions <= 0)
+        if(cek is null)
         {
-            System.Console.WriteLine("Nominal not valid");
-            return false;
+            System.Console.WriteLine("Data tidak ditemukan");
+        }
+
+        while (true)
+        {
+            System.Console.Write("Masukan nominal: ");
+            NominalTransactions = Convert.ToDecimal(System.Console.ReadLine());
+
+            if(NominalTransactions <= 0)
+            {
+                System.Console.WriteLine("Nominal not valid");
+                continue;
+            }
+            break;
         }
         
-        decimal cek = walletUsers.Where(p => p.UserId.ToUpper() == find.ToUpper()).Select(p => p.GetBalance()).FirstOrDefault();
-        
-        decimal topUpHasil = cek + NominalTransactions;
-        System.Console.WriteLine($"Balance saat ini menjadi: {topUpHasil:N0}");
-        return true;
-    }
+        try
+        {
+            cek.TopUp(NominalTransactions);
 
+            riwayats.Add(new Riwayat(
+                cek.UserId,
+                "TopUp",
+                NominalTransactions,
+                "Top Up saldo"
+            ));
+            System.Console.WriteLine();
+            System.Console.WriteLine("TopUp Berhasil");
+            System.Console.WriteLine($"Saldo ditambahkan: {NominalTransactions:N0}");
+
+            return true;
+        }
+        catch (System.Exception e)
+        {
+            System.Console.WriteLine(e.Message);
+            return false;
+        }
+
+    }
     public override string TypeTransactionName()
     {
-        return "TopUp";
+        return "Top Up";
     }
 }
